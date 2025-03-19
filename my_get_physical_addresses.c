@@ -36,7 +36,7 @@ SYSCALL_DEFINE1(my_get_physical_addresses, void *, vaddr) {
     if (p4d_none(*p4d) || p4d_bad(*p4d)) {
         return (void *)0;
     }
-    printk("p4d address123: %p\n", p4d);
+    printk("p4d address: %p\n", p4d);
 
     // Get PUD (page parent directory)
     // To obatin the entry to upper-level directory of the PUD page and checks whether is valid
