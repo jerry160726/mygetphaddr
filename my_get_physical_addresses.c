@@ -36,7 +36,7 @@ SYSCALL_DEFINE1(my_get_physical_addresses, void *, vaddr) {
     if (p4d_none(*p4d) || p4d_bad(*p4d)) {
         return (void *)0;
     }
-    printk("p4d address: %p\n", p4d);
+    printk("p4d address123: %p\n", p4d);
 
     // Get PUD (page parent directory)
     // To obatin the entry to upper-level directory of the PUD page and checks whether is valid
@@ -79,6 +79,6 @@ SYSCALL_DEFINE1(my_get_physical_addresses, void *, vaddr) {
 
     return (void *)physical_address;
 
-    // 透過 PGD->P4D->PUD->PMD->PTE 解析 virtual address，並計算出對應的 physical memory.
+    // ?????? PGD->P4D->PUD->PMD->PTE �???? virtual address�?並�??�???��???????? physical memory.
     // If the resolution is sucessful, the system call returns the physical addrress corresponding to the virtual address.
 }
