@@ -1,1 +1,1 @@
-# Linux ЊК Virtual Address Тр Physical Address
+# Get the physical address of a virtual address of a process.
