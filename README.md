@@ -65,7 +65,27 @@ static __always_inline struct task_struct *get_current(void)
 -   **PID**：`pid=4371` 是 Parent Process 的 pid，表示當前正在運行的 Parent Process。
 
 在 `fork()` 之前，Parent Process 擁有 `global_a` 的 Virtual Address 和對應的 Physical Address。
+
+### 2. After Fork by parent (fork()之後的輸出)
 ![05](https://imgur.com/M6fiGjS.jpeg) 
+-   **Virtual Address 和 Physical Address 沒有變化**：Parent Process 再次獲得 `global_a` 的 Virtual Address 和 Physical Address，這兩者都沒有變化。
+-   **PID**：`pid=4371`，Parent Process 的 pid 仍然是 `pid=4371`。
+
+在 `fork()` 之後，Parent Process 仍然擁有對 `global_a` 的控制，並且它的 Virtual Address 和對應的 Physical Address 保持不變，代表 Parent Process 並沒有對 `global_a` 進行任何修改。
+
+### 3. After Fork by child (fork()之後，child process的輸出)
 ![06](https://imgur.com/zqVVFJb.jpeg) 
+- **Virtual Address 沒有變化**：Child Process 中的 `global_a`  的 Virtual Address 仍然是 `0x563ab6a04010`。
+- **Physical Address 沒有變化**：Child Process 中的 `global_a` 對應的 Physical Address 仍然是 `0xcf696010`，與 Parent Process 共享同一個 Physical Address。
+- **PID**：`pid=4373`，這是 Child Process 的 pid。
+
+在 `fork()` 之後，Child Process 繼承了 Parent Process 的記憶體空間，Parent Process 與 Child Process 共享相同的 Virtual Address 和 Physical Address。這是因為在 `fork()` 之後，兩個 Process 暫時共享相同的 Physical Memory Page。
+
+### 4. Test Copy on Write in child (觸發CoW時，child process 的輸出)
 ![07](https://imgur.com/20LVLdV.jpeg) 
+- **Virtual Address 沒有變化**：Child Process 中的 `global_a` 的 Virtual Address 仍然是`0x563ab6a04010`。
+- **Physical Address 發生變化**：當 Child Process 修改了 `global_a` 的值後，對應的 Physical Address 變成了`0x7001d010`，表示觸發了 **Copy-on-Write（CoW）機制**。
+- **PID**：`pid=4373`，這是 Child Process 的 pid。
+
+在 Child Process 中，當 `global_a` 被修改時，Linux 的 Copy-on-Write 觸發，Kernel 會為 Child Process 分配一個新的 Physical Address，這樣 Parent Process 和 Child Process 不再共享同一個 Physical Memory Page。因此 Child Process 的 Physical Address 變成了`0x7001d010`。
 
