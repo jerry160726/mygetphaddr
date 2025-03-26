@@ -87,10 +87,87 @@ static __always_inline struct task_struct *get_current(void)
 
 在 Child Process 中，當 `global_a` 被修改時，Linux 的 Copy-on-Write 觸發，Kernel 會為 Child Process 分配一個新的 Physical Address，這樣 Parent Process 和 Child Process 不再共享同一個 Physical Memory Page。因此 Child Process 的 Physical Address 變成了`0x7001d010`。  
 
-### What is Copy-on-Write?
+## What is Copy-on-Write?
 -   `fork()` 後 Parent Process 和 Child Process 共享 Physical Memory：在 `fork()` 調用之後，Parent Process 和 Child Process 共享相同的 Virtual Address 與 Physical Memory 而節省資源，因為如果記憶體沒有被修改，它們可以共享相同的 Physical Page。
 -   **觸發Cow**：當 Child Process 嘗試修改共享的 Memory Page（例如 `global_a`）時，Kernel 會分配一個新的 Physical Page，這樣 Parent Process 和 Child Process 就會分別擁有自己獨立的 Physical Memory。這個過程叫做==寫入時複製（Copy-on-Write, CoW）==。而 Virtual Address 保持不變。
--   **Virtual Address 保持不變**：不管是 Parent Process  還是 Child Process，修改 `global_a` 時，它們的 Virtual Address 都不會變化。變化的是這個 Virtual Address 所對應的 Physical Address。  
+-   **Virtual Address 保持不變**：不管是 Parent Process  還是 Child Process，修改 `global_a` 時，它們的 Virtual Address 都不會變化。變化的是這個 Virtual Address 所對應的 Physical Address。
+
+## 執行結果 - Question 2
+![08](https://imgur.com/bmV7MVv.jpeg)
+
+## 觀察結果
+- Virtual Address：`0x560b703a7040` 是 `a[0]` 的Virtual Address。
+- Physical Address：`0x6bf04040` 是 `a[0]` 對應的Physical Address。
+
+## The address translation of a[1999999] failed: cannot get physical address.
+- Virtual Address：`0x560b704823c` 是 `a[1999999]` 的Virtual Address。
+- Physical Address：`(nil)` 表示你無法獲取 `a[1999999]` 的 Physical Address。
+
+## 為什麼 a[1999999]會轉址失敗?
+- **Lazy Allocation**：
+Linux 系統為了節省記憶體和提高效能，會使用 **Lazy Allocation**。系統在程式分配了記憶體後，實際上並不會立即分配 Physical Memory，直到這段記憶體真正被訪問（例如讀寫操作），Physical Memory 才會被分配。
+- **為什麼 `a[1999999]` 失敗**：
+雖然分配了一個大陣列 `int a[2000000]`，但這並不代表每個元素都會立即有對應的 Physical Memory Allocation。根據 Lazy Allocation，只有當你真正訪問某個元素時，系統才會將該 Virtual Address 映射到 Physical Address。
+
+### 如果有訪問 `a[0]` 或 `a[1999999]`
+```c
+    a[0] = 10;
+
+    phy_add=my_get_physical_addresses(&a[0]);
+    printf("global element a[0]:\n");  
+    printf("Offest of logical address:[%p]   Physical address:[%p]\n", &a[0], phy_add);              
+    printf("========================================================================\n");
+
+    a[1999999] = 20;
+
+    phy_add=my_get_physical_addresses(&a[1999999]);
+    printf("global element a[1999999]:\n");  
+    printf("Offest of logical address:[%p]   Physical address:[%p]\n", &a[1999999], phy_add);              
+    printf("========================================================================\n"); 
+```
+![09](https://imgur.com/a3LRAuW.jpeg)
+- Virtual Address：`0x55f058221040` 是 `a[0]` 的 Virtual Address。
+- Physical Address：`0x6956f040` 是 `a[0]` 對應的 Physical Address。
+
+## The address translation of a[1999999] successed.
+- Virtual Address：`0x55f0589c223c` 是 `a[1999999]` 的 Virtual Address。
+- Physical Address：`0x2ffc423c` 是 `a[1999999]` 對應的 Physical Address。
+
+## 為什麼每次執行程式時，Virtual Address 和 Physical Address 會改變?
+- **位址空間組態隨機載入 (ASLR - Address Space Layout Randomization)**：
+ASLR 是一種防範主記憶體損壞漏洞被利用的電腦安全技術。每次程式執行時，系統會隨機分配 Virtual Address，這樣攻擊者無法利用固定的 Address 來進行攻擊。現代作業系統一般都加設這一機制，以防範惡意程式對已知位址進行 `Return-to-libc` 攻擊。
+因此就算程式中的變數位置是固定的（如 `a[0]` 和 `a[1999999]`），每次執行時它們的 Virtual Address 都會有所不同。
+- **Physical Address**: 由作業系統的 `主記憶體管理單元 (MMU)` 負責分配，根據當前系統的可用記憶體狀態來動態決定。所以即使 Virtual Address 保持不變，不同時刻的 memory allocation 情況也會導致變數對應的 Physical Address 不同。
+
+## 如果依序去訪問，會在甚麼時候抓不到 Physical Address?
+```c
+    for(int i = 0; i <= 1999999; i++){
+        phy_add=my_get_physical_addresses(&a[i]);
+        printf("global element a[%d]:\n", i);  
+        printf("Offest of logical address:[%p]   Physical address:[%p]\n", &a[i], phy_add);              
+        printf("========================================================================\n"); 
+        if(phy_add == NULL){
+            printf("在 i == %d 時會抓不到 Physical Address\n", i);
+            break;
+        }
+    }
+```
+![10](https://imgur.com/lsyIftR.jpg)
+會在 `i == 1008` 時抓不到 Physical Address
+
+## 為什麼會在 i 等於 1008 時抓不到 Physical Address?
+- **系統 Memory Page 大小和 int 大小的關係:**
+Memory Page 的大小為 4 KB（4096 bytes）。假設每個 int 是 4 bytes，那麼一個 Page 可以容納：
+```
+4096 / 4 = 1024 個 int
+```
+這代表著 1024 個 int 數據剛好填滿一個 Physical Memory Page。
+
+- Lazy Allocation 和 Page Faults:
+作業系統根據 Lazy Allocation，Physical Memory Page 只會在需要時才分配。當程式訪問 `a[i]` 時，系統會根據需要分配對應的 Physical Page。但這些分配是根據頁（Page）單位進行的，而不是單個變數。
+- 當訪問 `a[0]` 到 `a[1007]` 時，這些元素可能已經在同一個 4 KB 的頁中，因此系統能夠為它們分配並成功獲取 Physical Address。
+- 但是當訪問到 `a[1008]` 時，它位於下一個 Memory Page 中（`a[1008]` 位於 4 KB 之後的記憶體）這時系統需要分配新的 Physical Memory Page。如果系統出現記憶體不足或未能成功分配該頁，就會導致無法獲取該 Virtual Address 所對應的 Physical Address。
+- 因此當 `i == 1008` 時抓不到 Physical Address，很可能是因為這個元素恰好落在某個 Page 的邊界，而系統在分配下一個 Physical Page 時出現了問題。
 
 ---
 [筆記網站](https://hackmd.io/@Jyen024/HykY2ayeJl "顏呈安的hackmd")
