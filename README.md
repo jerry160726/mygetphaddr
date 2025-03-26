@@ -99,17 +99,17 @@ static __always_inline struct task_struct *get_current(void)
 - Virtual Address¡G`0x560b703a7040` ¬O `a[0]` ªºVirtual Address¡C
 - Physical Address¡G`0x6bf04040` ¬O `a[0]` ¹ïÀ³ªºPhysical Address¡C
 
-## The address translation of a[1999999] failed: cannot get physical address.
+### The address translation of a[1999999] failed: cannot get physical address.
 - Virtual Address¡G`0x560b704823c` ¬O `a[1999999]` ªºVirtual Address¡C
 - Physical Address¡G`(nil)` ªí¥Ü§AµLªkÀò¨ú `a[1999999]` ªº Physical Address¡C
 
-## ¬°¤°»ò a[1999999]·|Âà§}¥¢±Ñ?
+### ¬°¤°»ò a[1999999]·|Âà§}¥¢±Ñ?
 - **Lazy Allocation**¡G
 Linux ¨t²Î¬°¤F¸`¬Ù°O¾ÐÅé©M´£°ª®Ä¯à¡A·|¨Ï¥Î **Lazy Allocation**¡C¨t²Î¦bµ{¦¡¤À°t¤F°O¾ÐÅé«á¡A¹ê»Ú¤W¨Ã¤£·|¥ß§Y¤À°t Physical Memory¡Aª½¨ì³o¬q°O¾ÐÅé¯u¥¿³Q³X°Ý¡]¨Ò¦pÅª¼g¾Þ§@¡^¡APhysical Memory ¤~·|³Q¤À°t¡C
 - **¬°¤°»ò `a[1999999]` ¥¢±Ñ**¡G
 ÁöµM¤À°t¤F¤@­Ó¤j°}¦C `int a[2000000]`¡A¦ý³o¨Ã¤£¥Nªí¨C­Ó¤¸¯À³£·|¥ß§Y¦³¹ïÀ³ªº Physical Memory Allocation¡C®Ú¾Ú Lazy Allocation¡A¥u¦³·í§A¯u¥¿³X°Ý¬Y­Ó¤¸¯À®É¡A¨t²Î¤~·|±N¸Ó Virtual Address ¬M®g¨ì Physical Address¡C
 
-### ¦pªG¦³³X°Ý `a[0]` ©Î `a[1999999]`
+## ¦pªG¦³³X°Ý `a[0]` ©Î `a[1999999]`
 ```c
     a[0] = 10;
 
@@ -129,7 +129,7 @@ Linux ¨t²Î¬°¤F¸`¬Ù°O¾ÐÅé©M´£°ª®Ä¯à¡A·|¨Ï¥Î **Lazy Allocation**¡C¨t²Î¦bµ{¦¡¤À°t¤F
 - Virtual Address¡G`0x55f058221040` ¬O `a[0]` ªº Virtual Address¡C
 - Physical Address¡G`0x6956f040` ¬O `a[0]` ¹ïÀ³ªº Physical Address¡C
 
-## The address translation of a[1999999] successed.
+### The address translation of a[1999999] successed.
 - Virtual Address¡G`0x55f0589c223c` ¬O `a[1999999]` ªº Virtual Address¡C
 - Physical Address¡G`0x2ffc423c` ¬O `a[1999999]` ¹ïÀ³ªº Physical Address¡C
 
@@ -155,7 +155,7 @@ ASLR ¬O¤@ºØ¨¾½d¥D°O¾ÐÅé·lÃaº|¬}³Q§Q¥Îªº¹q¸£¦w¥þ§Þ³N¡C¨C¦¸µ{¦¡°õ¦æ®É¡A¨t²Î·|ÀH¾÷¤
 ![10](https://imgur.com/lsyIftR.jpg)
 ·|¦b `i == 1008` ®É§ì¤£¨ì Physical Address
 
-## ¬°¤°»ò·|¦b i µ¥©ó 1008 ®É§ì¤£¨ì Physical Address?
+### ¬°¤°»ò·|¦b i µ¥©ó 1008 ®É§ì¤£¨ì Physical Address?
 - **¨t²Î Memory Page ¤j¤p©M int ¤j¤pªºÃö«Y:**
 Memory Page ªº¤j¤p¬° 4 KB¡]4096 bytes¡^¡C°²³]¨C­Ó int ¬O 4 bytes¡A¨º»ò¤@­Ó Page ¥i¥H®e¯Ç¡G
 ```
