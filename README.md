@@ -45,7 +45,7 @@ static __always_inline struct task_struct *get_current(void)
 
 ## 流程
 1. pgd_offset: 根據目前的 Virtual Address 和目前 Process 的資料結構 task_struct，存取其中的 mm point。
-2. mm point 中儲存著 mm_struct 位置，而 mm_struct 儲存該 Process 虛擬位置資料的結構，在該結構中我們就可以找到 pgd 的初始位置。使用 pgd_offset 即可存取 pgd page 中的 entry (pgd entry)  
+2. mm point 中儲存著 mm_struct 位置，而 mm_struct 儲存該 Process 虛擬位置資料的結構，在該結構中我們就可以找到 pgd 的初始位置。使用 pgd_offset 即可存取 pgd page 中的 pgd entry。   
 (entry 內容為 pud table 的 base address)
 3. pud_offset: 根據透過 pgd_offset 得到的 pgd entry 和 Virtual Address，可得到 pud entry。  
 (entry 內容為 pmd table 的 base address)
@@ -54,5 +54,6 @@ static __always_inline struct task_struct *get_current(void)
 6. 將從 pte 得到的 Base Address 與 Mask(0xf…fff000)做 AND 運算，即可得到 Page 的 Base Physical Address。
 7. Virtual Address 與 ~Mask(0x0…000fff)做 AND 運算得到 offset，再與 Page 的 base Physical Address 做 OR 運算即可得到轉換過後且完整的 Physical Address。
 
-
+## 執行結果 - Question 1
+![03](https://imgur.com/3poTqPE.jpeg)  
 
