@@ -1,11 +1,10 @@
 # Get the Physical Address of a Virtual Address of a process.
-[筆記網站](https://hackmd.io/@Jyen024/HykY2ayeJl "顏呈安的hackmd")  
-[專案網站](https://staff.csie.ncu.edu.tw/hsufh/COURSES/FALL2024/linux_project_1.html "專案網站")  
 
 ## Environment
 >OS: Ubuntu 22.04  
 >ARCH: X86_64  
->Source Version: 5.15.137  
+>Source Version: 5.15.137
+
 ## Linux 的 Virtual Address 轉 Physical Address
 ![01](https://imgur.com/n9PrODm.png)  
 ![02](https://imgur.com/iPA3kPi.png)  
@@ -90,5 +89,7 @@ static __always_inline struct task_struct *get_current(void)
 ### What is Copy-on-Write?
 -   `fork()` 後 Parent Process 和 Child Process 共享 Physical Memory：在 `fork()` 調用之後，Parent Process 和 Child Process 共享相同的 Virtual Address 與 Physical Memory 而節省資源，因為如果記憶體沒有被修改，它們可以共享相同的 Physical Page。
 -   **觸發Cow**：當 Child Process 嘗試修改共享的 Memory Page（例如 `global_a`）時，Kernel 會分配一個新的 Physical Page，這樣 Parent Process 和 Child Process 就會分別擁有自己獨立的 Physical Memory。這個過程叫做==寫入時複製（Copy-on-Write, CoW）==。而 Virtual Address 保持不變。
--   **Virtual Address 保持不變**：不管是 Parent Process  還是 Child Process，修改 `global_a` 時，它們的 Virtual Address 都不會變化。變化的是這個 Virtual Address 所對應的 Physical Address。
+-   **Virtual Address 保持不變**：不管是 Parent Process  還是 Child Process，修改 `global_a` 時，它們的 Virtual Address 都不會變化。變化的是這個 Virtual Address 所對應的 Physical Address。  
 
+[筆記網站](https://hackmd.io/@Jyen024/HykY2ayeJl "顏呈安的hackmd")  
+[專案網站](https://staff.csie.ncu.edu.tw/hsufh/COURSES/FALL2024/linux_project_1.html "專案網站")  
