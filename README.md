@@ -87,5 +87,10 @@ static __always_inline struct task_struct *get_current(void)
 - **Physical Address 發生變化**：當 Child Process 修改了 `global_a` 的值後，對應的 Physical Address 變成了`0x7001d010`，表示觸發了 **Copy-on-Write（CoW）機制**。
 - **PID**：`pid=4373`，這是 Child Process 的 pid。
 
-在 Child Process 中，當 `global_a` 被修改時，Linux 的 Copy-on-Write 觸發，Kernel 會為 Child Process 分配一個新的 Physical Address，這樣 Parent Process 和 Child Process 不再共享同一個 Physical Memory Page。因此 Child Process 的 Physical Address 變成了`0x7001d010`。
+在 Child Process 中，當 `global_a` 被修改時，Linux 的 Copy-on-Write 觸發，Kernel 會為 Child Process 分配一個新的 Physical Address，這樣 Parent Process 和 Child Process 不再共享同一個 Physical Memory Page。因此 Child Process 的 Physical Address 變成了`0x7001d010`。  
+
+==What is Copy-on-Write?==
+-   `fork()` 後 Parent Process 和 Child Process 共享 Physical Memory：在 `fork()` 調用之後，Parent Process 和 Child Process 共享相同的 Virtual Address 與 Physical Memory 而節省資源，因為如果記憶體沒有被修改，它們可以共享相同的 Physical Page。
+-   **觸發Cow**：當 Child Process 嘗試修改共享的 Memory Page（例如 `global_a`）時，Kernel 會分配一個新的 Physical Page，這樣 Parent Process 和 Child Process 就會分別擁有自己獨立的 Physical Memory。這個過程叫做==寫入時複製（Copy-on-Write, CoW）==。而 Virtual Address 保持不變。
+-   **Virtual Address 保持不變**：不管是 Parent Process  還是 Child Process，修改 `global_a` 時，它們的 Virtual Address 都不會變化。變化的是這個 Virtual Address 所對應的 Physical Address。
 
