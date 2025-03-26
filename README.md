@@ -87,7 +87,7 @@ static __always_inline struct task_struct *get_current(void)
 
 ¦b Child Process ¤¤¡A·í `global_a` ³Q­×§ï®É¡ALinux ªº Copy-on-Write Ä²µo¡AKernel ·|¬° Child Process ¤À°t¤@­Ó·sªº Physical Address¡A³o¼Ë Parent Process ©M Child Process ¤£¦A¦@¨É¦P¤@­Ó Physical Memory Page¡C¦]¦¹ Child Process ªº Physical Address ÅÜ¦¨¤F`0x7001d010`¡C  
 
-## What is Copy-on-Write?
+### What is Copy-on-Write?
 -   `fork()` «á Parent Process ©M Child Process ¦@¨É Physical Memory¡G¦b `fork()` ½Õ¥Î¤§«á¡AParent Process ©M Child Process ¦@¨É¬Û¦Pªº Virtual Address »P Physical Memory ¦Ó¸`¬Ù¸ê·½¡A¦]¬°¦pªG°O¾ÐÅé¨S¦³³Q­×§ï¡A¥¦­Ì¥i¥H¦@¨É¬Û¦Pªº Physical Page¡C
 -   **Ä²µoCow**¡G·í Child Process ¹Á¸Õ­×§ï¦@¨Éªº Memory Page¡]¨Ò¦p `global_a`¡^®É¡AKernel ·|¤À°t¤@­Ó·sªº Physical Page¡A³o¼Ë Parent Process ©M Child Process ´N·|¤À§O¾Ö¦³¦Û¤v¿W¥ßªº Physical Memory¡C³o­Ó¹Lµ{¥s°µ==¼g¤J®É½Æ»s¡]Copy-on-Write, CoW¡^==¡C¦Ó Virtual Address «O«ù¤£ÅÜ¡C
 -   **Virtual Address «O«ù¤£ÅÜ**¡G¤£ºÞ¬O Parent Process  ÁÙ¬O Child Process¡A­×§ï `global_a` ®É¡A¥¦­Ìªº Virtual Address ³£¤£·|ÅÜ¤Æ¡CÅÜ¤Æªº¬O³o­Ó Virtual Address ©Ò¹ïÀ³ªº Physical Address¡C
@@ -133,7 +133,7 @@ Linux ¨t²Î¬°¤F¸`¬Ù°O¾ÐÅé©M´£°ª®Ä¯à¡A·|¨Ï¥Î **Lazy Allocation**¡C¨t²Î¦bµ{¦¡¤À°t¤F
 - Virtual Address¡G`0x55f0589c223c` ¬O `a[1999999]` ªº Virtual Address¡C
 - Physical Address¡G`0x2ffc423c` ¬O `a[1999999]` ¹ïÀ³ªº Physical Address¡C
 
-## ¬°¤°»ò¨C¦¸°õ¦æµ{¦¡®É¡AVirtual Address ©M Physical Address ·|§ïÅÜ?
+### ¬°¤°»ò¨C¦¸°õ¦æµ{¦¡®É¡AVirtual Address ©M Physical Address ·|§ïÅÜ?
 - **¦ì§}ªÅ¶¡²ÕºAÀH¾÷¸ü¤J (ASLR - Address Space Layout Randomization)**¡G
 ASLR ¬O¤@ºØ¨¾½d¥D°O¾ÐÅé·lÃaº|¬}³Q§Q¥Îªº¹q¸£¦w¥þ§Þ³N¡C¨C¦¸µ{¦¡°õ¦æ®É¡A¨t²Î·|ÀH¾÷¤À°t Virtual Address¡A³o¼Ë§ðÀ»ªÌµLªk§Q¥Î©T©wªº Address ¨Ó¶i¦æ§ðÀ»¡C²{¥N§@·~¨t²Î¤@¯ë³£¥[³]³o¤@¾÷¨î¡A¥H¨¾½d´c·Nµ{¦¡¹ï¤wª¾¦ì§}¶i¦æ `Return-to-libc` §ðÀ»¡C
 ¦]¦¹´Nºâµ{¦¡¤¤ªºÅÜ¼Æ¦ì¸m¬O©T©wªº¡]¦p `a[0]` ©M `a[1999999]`¡^¡A¨C¦¸°õ¦æ®É¥¦­Ìªº Virtual Address ³£·|¦³©Ò¤£¦P¡C
@@ -152,8 +152,8 @@ ASLR ¬O¤@ºØ¨¾½d¥D°O¾ÐÅé·lÃaº|¬}³Q§Q¥Îªº¹q¸£¦w¥þ§Þ³N¡C¨C¦¸µ{¦¡°õ¦æ®É¡A¨t²Î·|ÀH¾÷¤
         }
     }
 ```
-![10](https://imgur.com/lsyIftR.jpg)
-·|¦b `i == 1008` ®É§ì¤£¨ì Physical Address
+![10](https://imgur.com/lsyIftR.jpg)  
+·|¦b `i == 1008` ®É§ì¤£¨ì Physical Address¡C
 
 ### ¬°¤°»ò·|¦b i µ¥©ó 1008 ®É§ì¤£¨ì Physical Address?
 - **¨t²Î Memory Page ¤j¤p©M int ¤j¤pªºÃö«Y:**
