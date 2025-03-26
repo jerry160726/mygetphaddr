@@ -1,5 +1,9 @@
 # Get the Physical Address of a Virtual Address of a process.
 
+## ³sµ²
+[µ§°Oºô¯¸](https://hackmd.io/@Jyen024/HykY2ayeJl "ÃC§e¦wªºhackmd")  
+[±M®×ºô¯¸](https://staff.csie.ncu.edu.tw/hsufh/COURSES/FALL2024/linux_project_1.html "±M®×ºô¯¸")  
+
 ## Environment
 >OS: Ubuntu 22.04  
 >ARCH: X86_64  
@@ -30,10 +34,10 @@ static __always_inline struct task_struct *get_current(void)
 `#define current get_current()`
 >current ¬O¤@­Ó macro¡A¥L³Q©w¸q¦b asm/current.h ¤º¡Ccurrent ¹ê»Ú¤W´N¬O get_current() ¨ç¼Æ¡C³o­Ó¨ç¦¡·|¦^¶Ç²{¦b CPU ©Ò°õ¦æ process ªº task_struct¡C  
 
-­º¥ý macro DECLARE_PER_CPU ªº§@¥Î¬O±N¤@­ÓÅÜ¼Æ³]©w¨ì¨C¤@­Ó CPU ¤º¡C  
-²Ä¤@¦æªº DECLARE_PER_CPU Åý§Ú­Ì¦³ struct task_struct* «¬ºAªº current_task ¥i¥H¥Î¡C  
-get_current() ¤º©Ò©I¥sªº this_cpu_read_stable(current_task) ¨ç¦¡¡A§@¥Î¬O±q CPU Åª¨ú current_task ÅÜ¼Æ¡C  
-§Ú­Ì«K¯à°÷¨Ï¥Î current ¨Ó®³¨ì·í«e process ªº task_struct ¤F¡C  
+>­º¥ý macro DECLARE_PER_CPU ªº§@¥Î¬O±N¤@­ÓÅÜ¼Æ³]©w¨ì¨C¤@­Ó CPU ¤º¡C  
+>²Ä¤@¦æªº DECLARE_PER_CPU Åý§Ú­Ì¦³ struct task_struct* «¬ºAªº current_task ¥i¥H¥Î¡C  
+>get_current() ¤º©Ò©I¥sªº this_cpu_read_stable(current_task) ¨ç¦¡¡A§@¥Î¬O±q CPU Åª¨ú current_task ÅÜ¼Æ¡C  
+>§Ú­Ì«K¯à°÷¨Ï¥Î current ¨Ó®³¨ì·í«e process ªº task_struct ¤F¡C  
 
 > current «ü¼Ð¬°Àx¦s task ªº¦UºØ¸ê®Æ¥Îªº¡A¦Ó§Ú­Ì»Ý­nªº¬O¸Ì­±ªº mm °Ñ¼Æ¡A¦Ó mm µ²ºc¼Ð¥Ü¤F¤@­Ó Process ªº Memory ºÞ²z°T®§¡A¥]§t¡G  
 > * page table ¸ê°T  
@@ -49,10 +53,6 @@ get_current() ¤º©Ò©I¥sªº this_cpu_read_stable(current_task) ¨ç¦¡¡A§@¥Î¬O±q CPU Å
 5. pte_offset: ®Ú¾Ú pmd entry ªº¤º®e»P Virtual Address¡A¥i±o¨ì pte ªº base address¡C
 6. ±N±q pte ±o¨ìªº Base Address »P Mask(0xf¡Kfff000)°µ AND ¹Bºâ¡A§Y¥i±o¨ì Page ªº Base Physical Address¡C
 7. Virtual Address »P ~Mask(0x0¡K000fff)°µ AND ¹Bºâ±o¨ì offset¡A¦A»P Page ªº base Physical Address °µ OR ¹Bºâ§Y¥i±o¨ìÂà´«¹L«á¥B§¹¾ãªº Physical Address¡C
-
-## ³sµ²
-[µ§°Oºô¯¸](https://hackmd.io/@Jyen024/HykY2ayeJl "ÃC§e¦wªºhackmd")  
-[±M®×ºô¯¸](https://staff.csie.ncu.edu.tw/hsufh/COURSES/FALL2024/linux_project_1.html "±M®×ºô¯¸")  
 
 
 
