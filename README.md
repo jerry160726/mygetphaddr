@@ -17,7 +17,7 @@
 
 ### current 指標
 [current 指標](https://elixir.bootlin.com/linux/v5.15.137/source/arch/x86/include/asm/current.h)  
-```c=11
+```c=
 DECLARE_PER_CPU(struct task_struct *, current_task);
 static __always_inline struct task_struct *get_current(void)
 {
