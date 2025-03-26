@@ -57,3 +57,9 @@ static __always_inline struct task_struct *get_current(void)
 ## 執行結果 - Question 1
 ![03](https://imgur.com/3poTqPE.jpeg)  
 
+## 觀察結果
+![04](https://imgur.com/hc5z6dG.jpeg) 
+![05](https://imgur.com/M6fiGjS.jpeg) 
+![06](https://imgur.com/zqVVFJb.jpeg) 
+![07](https://imgur.com/20LVLdV.jpeg) 
+
