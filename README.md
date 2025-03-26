@@ -29,6 +29,7 @@ static __always_inline struct task_struct *get_current(void)
 ```
 `#define current get_current()`
 >current ¬O¤@­Ó macro¡A¥L³Q©w¸q¦b asm/current.h ¤º¡Ccurrent ¹ê»Ú¤W´N¬O get_current() ¨ç¼Æ¡C³o­Ó¨ç¦¡·|¦^¶Ç²{¦b CPU ©Ò°õ¦æ process ªº task_struct¡C  
+
 ­º¥ý macro DECLARE_PER_CPU ªº§@¥Î¬O±N¤@­ÓÅÜ¼Æ³]©w¨ì¨C¤@­Ó CPU ¤º¡C  
 ²Ä¤@¦æªº DECLARE_PER_CPU Åý§Ú­Ì¦³ struct task_struct* «¬ºAªº current_task ¥i¥H¥Î¡C  
 get_current() ¤º©Ò©I¥sªº this_cpu_read_stable(current_task) ¨ç¦¡¡A§@¥Î¬O±q CPU Åª¨ú current_task ÅÜ¼Æ¡C  
@@ -42,7 +43,7 @@ get_current() ¤º©Ò©I¥sªº this_cpu_read_stable(current_task) ¨ç¦¡¡A§@¥Î¬O±q CPU Å
 1. pgd_offset: ®Ú¾Ú¥Ø«eªº Virtual Address ©M¥Ø«e Process ªº¸ê®Æµ²ºc task_struct¡A¦s¨ú¨ä¤¤ªº mm point¡C
 2. mm point ¤¤Àx¦sµÛ mm_struct ¦ì¸m¡A¦Ó mm_struct Àx¦s¸Ó Process µêÀÀ¦ì¸m¸ê®Æªºµ²ºc¡A¦b¸Óµ²ºc¤¤§Ú­Ì´N¥i¥H§ä¨ì pgd ªºªì©l¦ì¸m¡C¨Ï¥Î pgd_offset §Y¥i¦s¨ú pgd page ¤¤ªº entry (pgd entry)  
 (entry ¤º®e¬° pud table ªº base address)
-3. pud_offset: ®Ú¾Ú³z¹L pgd_offset ±o¨ìªº pgd entry ©M Virtual Address¡A¥i±o¨ì pud entry  
+3. pud_offset: ®Ú¾Ú³z¹L pgd_offset ±o¨ìªº pgd entry ©M Virtual Address¡A¥i±o¨ì pud entry¡C  
 (entry ¤º®e¬° pmd table ªº base address)
 4. pmd_offset: ®Ú¾Ú pud entry ªº¤º®e©M Virtual Address¡A¥i±o¨ì pte table ªº base address¡C
 5. pte_offset: ®Ú¾Ú pmd entry ªº¤º®e»P Virtual Address¡A¥i±o¨ì pte ªº base address¡C
