@@ -15,6 +15,19 @@
 > 每一級 table 有3個 key description marco: shift, size, mask。  
 > PGD, PUD, PMD, PTE 會分別由 pgd_t, pud_t, pmd_t, pte_t 來做描述。  
 
+### current 指標
+[current 指標](https://elixir.bootlin.com/linux/v5.15.137/source/arch/x86/include/asm/current.h)  
+```c=11
+DECLARE_PER_CPU(struct task_struct *, current_task);
+static __always_inline struct task_struct *get_current(void)
+{
+	return this_cpu_read_stable(current_task);
+}
+#define current get_current()
+#endif /* __ASSEMBLY__ */
+#endif /* _ASM_X86_CURRENT_H */
+```
+
 ## 連結
 [筆記網站](https://hackmd.io/@Jyen024/HykY2ayeJl "顏呈安的hackmd")  
 [專案網站](https://staff.csie.ncu.edu.tw/hsufh/COURSES/FALL2024/linux_project_1.html "專案網站")  
