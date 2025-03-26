@@ -58,7 +58,13 @@ static __always_inline struct task_struct *get_current(void)
 ![03](https://imgur.com/3poTqPE.jpeg)  
 
 ## 觀察結果
+### 1. Before Fork (fork()之前的輸出)
 ![04](https://imgur.com/hc5z6dG.jpeg) 
+-   **Virtual Address**：`0x563ab6a04010` 是全域變數 `global_a` 的 Virtual Address，即 Process 內存中的 Logical Memory 位置，由系統為該變數分配。
+-   **Physical Address**：`0xcf696010` 是 `global_a` 對應的 Physical Address，即 Physical Memory 的實際存儲地址。
+-   **PID**：`pid=4371` 是 Parent Process 的 pid，表示當前正在運行的 Parent Process。
+
+在 `fork()` 之前，Parent Process 擁有 `global_a` 的 Virtual Address 和對應的 Physical Address。
 ![05](https://imgur.com/M6fiGjS.jpeg) 
 ![06](https://imgur.com/zqVVFJb.jpeg) 
 ![07](https://imgur.com/20LVLdV.jpeg) 
