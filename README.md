@@ -1,12 +1,12 @@
 # Get the Physical Address of a Virtual Address of a process.
 
 ## Environment
->OS: Ubuntu 22.04
->ARCH: X86_64
->Source Version: 5.15.137
+>OS: Ubuntu 22.04  
+>ARCH: X86_64  
+>Source Version: 5.15.137  
 ## Linux 的 Virtual Address 轉 Physical Address
-![01](https://imgur.com/n9PrODm)  
-![02](https://imgur.com/iPA3kPi)  
+![01](https://imgur.com/n9PrODm.png)  
+![02](https://imgur.com/iPA3kPi.png)  
 > 這四個 page table 為：
 > * 頁全域目錄 (Page Global Directory)(PGD)
 > * 頁上級目錄 (Page Upper Directory)(PUD)
