@@ -79,6 +79,6 @@ SYSCALL_DEFINE1(my_get_physical_addresses, void *, vaddr) {
 
     return (void *)physical_address;
 
-    // ?????? PGD->P4D->PUD->PMD->PTE 閫???? virtual address嚗?銝西??蝞???箏???????? physical memory.
+    // 透過 PGD->P4D->PUD->PMD->PTE 解析 Virtual Address，並計算出對應的 Physical Memory.
     // If the resolution is sucessful, the system call returns the physical addrress corresponding to the virtual address.
 }
