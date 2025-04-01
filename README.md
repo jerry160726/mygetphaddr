@@ -172,4 +172,4 @@ Memory Page 的大小為 4 KB（4096 bytes）。假設每個 int 是 4 bytes，那麼一個 Page 
 - 因此當 `i == 1008` 時抓不到 Physical Address，很可能是因為這個元素恰好落在某個 Page 的邊界，而系統在分配下一個 Physical Page 時出現了問題。
 
 ---
-[筆記網站](https://hackmd.io/@Jyen024/HykY2ayeJl "顏呈安的hackmd")
+[筆記網站](https://hackmd.io/I4SHiKQDTbe2VpCM5T4F9w){target="_blank"}
